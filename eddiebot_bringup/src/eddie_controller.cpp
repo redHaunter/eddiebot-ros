@@ -130,9 +130,11 @@ void EddieController::velocityCallback(
     stop();
   } else if (linear != 0 && angular == 0) {
     moveLinear(linear);
-  } else if (linear == 0 && angular != 0) {
-    moveAngular(angular);
-  } else { // if (linear!=0 && angular !=0)
+  }
+  // else if (linear == 0 && angular != 0) {
+  //   moveAngular(angular);
+    // }
+   else { // if (linear!=0 && angular !=0)
     moveLinearAngular(linear, angular);
   }
 }

@@ -39,6 +39,10 @@ void EddieOdomPublisher::encoder_cb_(const eddiebot_msgs::msg::Encoders::ConstSh
     double delta_x = delta_dist * cos(th_);
     double delta_y = delta_dist * sin(th_);
 
+    //calculating left and right wheel velocities
+    double right_wheel_vel = 1.0 * delta_right_cnt * DISTANCE_PER_COUNT / dt;
+    double left_wheel_vel = 1.0 * delta_left_cnt * DISTANCE_PER_COUNT / dt;
+
     x_ += delta_x;
     y_ += delta_y;
     th_ += delta_th;

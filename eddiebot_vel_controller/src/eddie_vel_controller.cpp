@@ -8,7 +8,7 @@ EddieVelController::EddieVelController(std::shared_ptr<rclcpp::Node> node_handle
     vel_pub_ = node_handle_->create_publisher<eddiebot_msgs::msg::Velocity>("/eddie/simple_velocity", 5);
 
     cmd_vel_sub_ = node_handle_->create_subscription<geometry_msgs::msg::Twist>(
-          "/eddie/cmd_vel", 1,
+          "/cmd_vel", 1,
           std::bind(&EddieVelController::cmd_vel_callback_, this,
                     std::placeholders::_1));
 }

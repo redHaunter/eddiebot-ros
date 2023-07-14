@@ -95,7 +95,7 @@ def generate_launch_description():
         parameters=[
             {'use_sim_time': LaunchConfiguration('use_sim_time')},
             {'range_min': 0.30},
-            {'range_max': 10.0},
+            {'range_max': 4.0}, #10.0
             {'scan_height': 50}
         ],
         remappings=[

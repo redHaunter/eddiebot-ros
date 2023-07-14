@@ -25,13 +25,24 @@ ARGUMENTS = [
                           description='QoS used for input sensor topics'),
     DeclareLaunchArgument('localization', default_value='false',
                           choices=['true', 'false'],
-                          description='Localize only, do not change loaded map')
+                          description='Localize only, do not change loaded map'),
+    DeclareLaunchArgument('description', default_value='false',
+                          choices=['true', 'false'],
+                          description='Launch eddiebot description'),
 
 ]
 
 
 def generate_launch_description():
-
+    pkg_eddiebot_description = get_package_share_directory('eddiebot_description')
+    description_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [pkg_eddiebot_description, 'launch', 'robot_description.launch.py']
+            )
+        ),
+        condition=IfCondition(LaunchConfiguration('description'))
+    )
     # Directories
     pkg_eddiebot_nav = get_package_share_directory(
         'eddiebot_nav')
@@ -49,14 +60,17 @@ def generate_launch_description():
             'qos_scan': LaunchConfiguration('qos'),
             'use_action_for_goal': True,
             'approx_sync': True,
-            'queue_size': 30,
-
+            'queue_size': 10, #30
+ 
             # rtabmap parameters
             'Optimizer/Strategy': '1',
 
             'RGBD/ProximityBySpace': 'false',
             'Reg/Force3DoF': 'true',
             'Vis/MinInliers': '12',
+
+            # 'Reg/Strategy' : '1', ###
+            # 'RGBD/ProximityPathMaxNeighbors' : '1', ###
 
             'RGBD/AngularUpdate': '0.01',
             'RGBD/LinearUpdate': '0.01',
@@ -104,6 +118,7 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription(ARGUMENTS)
+    ld.add_action(description_launch)
     ld.add_action(rtabmap_slam)
     ld.add_action(rtabmap_localization)
     ld.add_action(rtabmap_viz)
